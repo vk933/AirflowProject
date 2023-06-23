@@ -78,6 +78,9 @@ task2 = PythonOperator(
 # Task 3: Dummy Operator to end the task
 task3 = DummyOperator(task_id='end_task',dag=timberland_stock)
 
+
+# task 4: to send mail notification
+
 send_email = EmailOperator(
         task_id='send_email',
         to='adityaanal766@gmail.com',
