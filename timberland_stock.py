@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
+from airflow.operators.email_operator import EmailOperator
 #import pandas as pd
 
 
@@ -77,7 +78,12 @@ task2 = PythonOperator(
 # Task 3: Dummy Operator to end the task
 task3 = DummyOperator(task_id='end_task',dag=timberland_stock)
 
-
+send_email = EmailOperator(
+        task_id='send_email',
+        to='adityaanal766@gmail.com',
+        subject='ingestion complete',
+        html_content="Date: {{ ds }}",
+        dag=timberland_stock)
 
 # Define task dependencies
-task1 >> task2 >> task3
+task1 >> send_email >> task2 >> task3 
